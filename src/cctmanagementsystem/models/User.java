@@ -290,6 +290,19 @@ public class User {
             System.out.println("ERROR : " + e.getMessage());
         }
     }
+    // function to check the user from the database
+    private static boolean checkUsernameExists(Connection connection, String username) {
+        String checkQuery = "SELECT * FROM users WHERE username = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(checkQuery)) {
+            preparedStatement.setString(1, username);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next(); // Returns true if the username exists
+        } catch (SQLException e) {
+            System.out.println("ERROR : " + e.getMessage());
+            return false;
+        }
+    }
 
 
 
