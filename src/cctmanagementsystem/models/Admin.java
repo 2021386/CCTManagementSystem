@@ -249,6 +249,32 @@ public class Admin {
             System.out.println("ERROR : " + e.getMessage());
         }
     }
+    // function to view the operations performed by the users
+    private static void viewUserOperations() {
+        // Get the current admin information
+        String selectQuery = "SELECT * FROM user_operations";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(selectQuery);
+            if (!resultSet.isBeforeFirst()) {
+                System.out.println("No user found.");
+            } else {
+                System.out.println("*********** User Operations ***********");
+                System.out.printf("%-25s %-25s %-25s %-25s%n", "Operation No.", "User Name", "Operation", "Date");
+                System.out.println(
+                        "---------------------------------------------------------------------------------------------------------");
+                while (resultSet.next()) {
+                    String op_number = resultSet.getString("op_id");
+                    String username = resultSet.getString("username");
+                    String operation = resultSet.getString("operation");
+                    String date = resultSet.getString("date");
+                    System.out.printf("%-25s %-25s %-25s %-25s%n", op_number, username, operation, date);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR : " + e.getMessage());
+        }
+    }
 
 
     
