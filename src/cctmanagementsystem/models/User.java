@@ -303,6 +303,18 @@ public class User {
             return false;
         }
     }
+    // function to store the log information into the database
+    private void logUserOperation(String username, String operation) {
+        String insertQuery = "INSERT INTO user_operations (username, operation, date) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, operation);
+            preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+        } catch (SQLException e) {
+            System.out.println("DATABASE ERROR => logUserOperation : " + e.getMessage());
+        }
+
+    }
 
 
 
