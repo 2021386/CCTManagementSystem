@@ -4,11 +4,28 @@
  */
 package cctmanagementsystem.models;
 
+import java.sql.*;
+import java.util.Scanner;
+
+import cctmanagementsystem.config.Database;
+
 /**
  *
  * @author muham
  */
 public class Admin {
+    // Establishing a Connection to the database
+    private final static Connection connection = Database.getInstance().getConnection();
+    private static Admin instance;
+    // Singleton pattern to ensure only one instance of Admin exists
+    public static Admin getInstance() {
+        if (instance == null) {
+            instance = new Admin();
+        }
+
+        return instance;
+    }
+    
     // function for the login of Admin
     public boolean loginAsAdmin() {
         Scanner scanner = new Scanner(System.in);
