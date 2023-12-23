@@ -4,6 +4,7 @@
  */
 package cctmanagementsystem;
 
+import cctmanagementsystem.core.UserInterface;
 /**
  *
  * @author muham
@@ -15,6 +16,7 @@ public class CCTManagementSystem {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        UserInterface.drawApp();
     }
     
 }
