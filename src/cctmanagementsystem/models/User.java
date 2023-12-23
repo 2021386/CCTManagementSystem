@@ -221,6 +221,52 @@ public class User {
             }
         } while (userChoice != 4);
     }
+     // calculate the income Tax
+    private static double calculateIncomeTax(double grossIncome, double taxCredits) {
+        double taxRate = 0.20;
+        return grossIncome * taxRate - taxCredits;
+    }
+
+    // calculate the USC
+    private static double calculateUSC(double grossIncome) {
+        double uscRate = 0.04;
+        return grossIncome * uscRate;
+    }
+
+    // calculate the PRSI
+    private static double calculatePRSI(double grossIncome) {
+        double prsiRate = 0.02;
+        return grossIncome * prsiRate;
+    }
+    // function to calculate Tax and store into the database
+    private void calculateAndStoreTax(String username) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("*********** Tax Calculation ***********");
+        // Get user's gross income and tax credits
+        System.out.print("Enter Gross Income: ");
+        double grossIncome = scanner.nextDouble();
+        System.out.print("Enter Tax Credits: ");
+        double taxCredits = scanner.nextDouble();
+        // Perform tax calculations (Income tax/PAYE, USC, and PRSI)
+        double incomeTax = calculateIncomeTax(grossIncome, taxCredits);
+        double usc = calculateUSC(grossIncome);
+        double prsi = calculatePRSI(grossIncome);
+        // Calculate total tax owed
+        double totalTaxOwed = incomeTax + usc + prsi;
+        // Display the calculated tax details
+        System.out.println("\n*********** Tax Details ***********");
+        System.out.println("User name: " + username);
+        System.out.println("Gross Income: " + grossIncome);
+        System.out.println("Tax Credits: " + taxCredits);
+        System.out.println("Income Tax (PAYE): " + incomeTax);
+        System.out.println("USC: " + usc);
+        System.out.println("PRSI: " + prsi);
+        System.out.println("Total Tax Owed: " + totalTaxOwed);
+        // Store the tax information in the database
+        storeTaxInformation(username, grossIncome, taxCredits, incomeTax, usc, prsi, totalTaxOwed);
+        
+    }
+
 
 
     
