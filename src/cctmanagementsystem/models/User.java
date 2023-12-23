@@ -185,6 +185,42 @@ public class User {
             System.out.println("ERROR : " + e.getMessage());
         }
     }
+     public void displayUserMenu(String username) {
+        // Display the user menu
+        int userChoice;
+        do {
+            System.out.println("*********** Welcome, " + username + " ***********");
+            System.out.println("1) View Profile");
+            System.out.println("2) Modify Profile");
+            System.out.println("3) Calculate Tax");
+            System.out.println("4) Exit");
+            System.out.print("Enter your choice: ");
+            // Add logic for admin menu options here
+            userChoice = User.getInstance().getUserChoice();
+            switch (userChoice) {
+                case 1:
+                    viewProfile(username); // store the log in the database table
+                    logUserOperation(username, "Logged In");
+                    break;
+                case 2:
+                    modifyUserProfile(username); // store the log in the database
+                    logUserOperation(username, "Edited profile");
+                    break;
+                case 3:
+                    // calculate and store the tax
+                    calculateAndStoreTax(username);
+                    logUserOperation(username, "Tax Calculated");
+                    break;
+                case 4:
+                    System.out.println("Exiting User Menu!");
+                    System.out.println("------------------------------------------------------");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+                    break;
+            }
+        } while (userChoice != 4);
+    }
 
 
     
