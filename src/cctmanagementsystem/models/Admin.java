@@ -275,6 +275,19 @@ public class Admin {
             System.out.println("ERROR : " + e.getMessage());
         }
     }
+    // function to update information of admin
+    private static void updateAdminField(Connection connection, String field, String value) throws SQLException {
+        String updateQuery = "UPDATE admin SET " + field + " = ? WHERE username = 'CCT'";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+            preparedStatement.setString(1, value);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Profile updated successfully.");
+            } else {
+                System.out.println("Failed to update profile.");
+            }
+        }
+    }
 
 
     
