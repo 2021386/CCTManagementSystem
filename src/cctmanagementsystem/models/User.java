@@ -159,6 +159,32 @@ public class User {
         }
 
     }
+ // function to display the information of user
+    private static void viewProfile(String username) {
+        String selectQuery = "SELECT * FROM users WHERE username = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                System.out.println("*********** User Profile ***********");
+                System.out.printf("%-15s %-15s %-15s %-15s %-15s%n",
+                        "Username", "Password", "Name", "Surname", "Email");
+                System.out.println("--------------------------------------");
+                String currentUsername = resultSet.getString("username");
+                String currentPassword = resultSet.getString("password");
+                String currentName = resultSet.getString("name");
+                String currentSurname = resultSet.getString("surname");
+                String currentEmail = resultSet.getString("email");
+
+                System.out.printf("%-15s %-15s %-15s %-15s %-15s%n",
+                        currentUsername, currentPassword, currentName, currentSurname, currentEmail);
+            } else {
+                System.out.println("Admin not found.");
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR : " + e.getMessage());
+        }
+    }
 
 
     
