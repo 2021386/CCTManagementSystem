@@ -201,6 +201,55 @@ public class Admin {
         }
 
     }
+    // function to remove user
+    private static void removeUser() {
+        // Initializing the counter for user numbering 
+        int nou = 1;
+        String selectQuery = "SELECT * FROM users";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(selectQuery);
+            if (!resultSet.isBeforeFirst()) {
+                System.out.println("No user found.");
+            } else {
+                System.out.println("*********** User List ***********");
+                System.out.printf("%-15s %-15s %-15s %-15s %-15s%n", "User", "User Name", "Name", "Surname",
+                        "Email");
+                System.out.println(
+                        "-------------------------------------------------------------------------------------");
+
+                while (resultSet.next()) {
+                    // Retrieve user information from the result set 
+                    String username = resultSet.getString("username");
+                    String name = resultSet.getString("name");
+                    String surname = resultSet.getString("surname");
+                    String email = resultSet.getString("email");
+                    // Display user information 
+                    System.out.printf("%-15d %-15s %-15s %-15s %-15s%n", nou, username, name, surname, email);
+                    nou++;
+                }
+                // Prompt admin for the username to remove
+                Scanner in = new Scanner(System.in);
+                System.out.print("Enter the username to remove: ");
+                String username = in.nextLine();
+                
+                // Remove the user with the specified username
+                String deleteQuery = "DELETE FROM users WHERE username = ?";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                    preparedStatement.setString(1, username);
+                    int rowsAffected = preparedStatement.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        System.out.println("User " + username + "successfully deleted.");
+                    } else {
+                        System.out.println("User " + username + " not found.");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR : " + e.getMessage());
+        }
+    }
+
 
     
 }
