@@ -4,6 +4,11 @@
  */
 package cctmanagementsystem.models;
 
+import java.sql.*;
+import java.util.Scanner;
+
+import cctmanagementsystem.config.Database;
+
 /**
  *
  * @author Asad
@@ -61,6 +66,20 @@ public class User {
         }
 
     }
+     // function to login into for the user in the database 
+    public boolean loginAsUser(String username, String password) {
+        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next(); // Returns true if there is a match
+        } catch (SQLException e) {
+            System.out.println("DATABASE ERROR => loginAsUser : " + e.getMessage());
+            return false;
+        }
+    }
+
 
     
 }
