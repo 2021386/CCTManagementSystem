@@ -70,6 +70,87 @@ public class Admin {
             }
         } while (adminChoice != 5);
     }
+     // function to modify the admin profile
+    private static void modifyAdminProfile() {
+        Scanner scanner = new Scanner(System.in);
+        // Select the admin information from the admin table 
+        String selectQuery = "SELECT * FROM admin WHERE username = 'CCT'";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(selectQuery);
+            if (resultSet.next()) {
+                // display the information of admin
+                System.out.println("*********** Admin Profile ***********");
+                System.out.printf("%-15s %-15s %-15s %-15s %-15s%n",
+                        "Username", "Password", "Name", "Surname", "Email");
+                System.out.println("--------------------------------------");
+                String currentUsername = resultSet.getString("username");
+                String currentPassword = resultSet.getString("password");
+                String currentName = resultSet.getString("name");
+                String currentSurname = resultSet.getString("surname");
+                String currentEmail = resultSet.getString("email");
+                System.out.printf("%-15s %-15s %-15s %-15s %-15s%n",
+                        currentUsername, currentPassword, currentName, currentSurname, currentEmail);
+                // Loop for editing profile
+                boolean exitModify = false;
+                do {
+                    System.out.println("\nSelect option to modify:");
+                    System.out.println("1) Username");
+                    System.out.println("2) Password");
+                    System.out.println("3) Name");
+                    System.out.println("4) Surname");
+                    System.out.println("5) Email");
+                    System.out.println("6) Exit");
+                    System.out.print("Enter your choice: ");
+                    int modifyOption = scanner.nextInt();
+
+                    switch (modifyOption) {
+                        case 1:
+                            System.out.print("Enter new username: ");
+                            String newUsername = scanner.next();
+                            updateAdminField(connection, "username", newUsername);
+                            
+                            break;
+                        case 2:
+                            System.out.print("Enter new password: ");
+                            String newPassword = scanner.next();
+                            updateAdminField(connection, "password", newPassword);
+                            
+                            break;
+                        case 3:
+                            System.out.print("Enter new name: ");
+                            String newName = scanner.next();
+                            updateAdminField(connection, "name", newName);
+                            
+                            break;
+                        case 4:
+                            System.out.print("Enter new surname: ");
+                            String newSurname = scanner.next();
+                            updateAdminField(connection, "surname", newSurname);
+                            
+                            break;
+                        case 5:
+                            System.out.print("Enter new email: ");
+                            String newEmail = scanner.next();
+                            updateAdminField(connection, "email", newEmail);
+                            
+                            break;
+                        case 6:
+                            exitModify = true;
+                            System.out.println("Exiting profile modification.");
+                            
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please enter a valid option.");
+                    }
+                } while (!exitModify);
+            } else {
+                System.out.println("Admin not found.");
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR : " + e.getMessage());
+        }
+
+    }
 
     
 }
