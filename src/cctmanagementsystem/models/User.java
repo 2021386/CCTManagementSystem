@@ -266,6 +266,30 @@ public class User {
         storeTaxInformation(username, grossIncome, taxCredits, incomeTax, usc, prsi, totalTaxOwed);
         
     }
+    // store the clculated tax information into the database
+    private static void storeTaxInformation(String username, double grossIncome, double taxCredits, double incomeTax,
+            double usc, double prsi, double totalTaxOwed) {
+        String insertQuery = "INSERT INTO tax_audit (username, gross_income, tax_credits, income_tax, usc, prsi, total_tax_owed) "
+                +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.setString(1, username);
+            preparedStatement.setDouble(2, grossIncome);
+            preparedStatement.setDouble(3, taxCredits);
+            preparedStatement.setDouble(4, incomeTax);
+            preparedStatement.setDouble(5, usc);
+            preparedStatement.setDouble(6, prsi);
+            preparedStatement.setDouble(7, totalTaxOwed);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Tax information stored successfully for auditing and debugging.");
+            } else {
+                System.out.println("Failed to store tax information.");
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR : " + e.getMessage());
+        }
+    }
 
 
 
