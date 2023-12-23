@@ -9,6 +9,16 @@ package cctmanagementsystem.models;
  * @author Asad
  */
 public class User {
+     // EStablishing a connection to the database 
+    private final static Connection connection = Database.getInstance().getConnection();
+    private static User instance;
+    //Getting input from user
+    public int getUserChoice() {
+        Scanner scanner = new Scanner(System.in);
+        int value = scanner.nextInt();
+        
+        return value;
+    }
     // function to create a self user account
     public void createSelfUserAccount() {
         Scanner scanner = new Scanner(System.in);
