@@ -151,6 +151,39 @@ public class Admin {
         }
 
     }
+    // Displaying a list of users from the "user's" table 
+    private static void displayUserList() {
+    // Initializng a counter for user numbering     
+        int nou = 1;
+
+        System.out.print("Following is the users list");
+        String query = "SELECT * FROM users";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            if (!resultSet.isBeforeFirst()) {
+                System.out.println("No user found.");
+            } else {
+                System.out.println("*********** User List ***********");
+                System.out.printf("%-15s %-15s %-15s %-15s %-15s%n", "User", "User Name", "Name", "Surname",
+                        "Email");
+                System.out.println(
+                        "--------------------------------------------------------------------------------------");
+                while (resultSet.next()) {
+                    // Retrieve user information from the result set.
+                    String username = resultSet.getString("username");
+                    String name = resultSet.getString("name");
+                    String surname = resultSet.getString("surname");
+                    String email = resultSet.getString("email");
+                    // Display user information
+                    System.out.printf("%-15d %-15s %-15s %-15s %-15s%n", nou, username, name, surname, email);
+                    nou++;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR : " + e.getMessage());
+        }
+
+    }
 
     
 }
