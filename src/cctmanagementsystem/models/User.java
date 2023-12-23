@@ -315,6 +315,23 @@ public class User {
         }
 
     }
+    // function to update information of user
+    private static void updateUserField(Connection connection, String username, String field, String value)
+            throws SQLException {
+        String updateQuery = "UPDATE users SET " + field + " = ? WHERE username = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+            preparedStatement.setString(1, value);
+            preparedStatement.setString(2, username);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Profile updated successfully.");
+            } else {
+                System.out.println("Failed to update profile.");
+            }
+        }
+    }
 
 
 
